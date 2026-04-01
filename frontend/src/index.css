@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@theme {
+  --color-terminal-bg: #000000;
+  --color-terminal-sidebar: #0a0a0a;
+  --color-terminal-border: #1a1a1a;
+  --color-terminal-text: #d1d1d1;
+  --color-terminal-muted: #666666;
+  --color-terminal-accent: #ff9900;
+  --color-terminal-up: #00ff00;
+  --color-terminal-down: #ff0000;
+  --color-terminal-row: #050505;
+  --color-terminal-hover: #121212;
+
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-black text-terminal-text font-sans;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-terminal-bg;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-terminal-border rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-terminal-muted;
+}
+
+/* Animations */
+@keyframes flash-up {
+  0% { background-color: rgba(6, 78, 59, 0.2); } /* green-900/20 */
+  100% { background-color: transparent; }
+}
+
+@keyframes flash-down {
+  0% { background-color: rgba(127, 29, 29, 0.2); } /* red-900/20 */
+  100% { background-color: transparent; }
+}
+
+.flash-up {
+  animation: flash-up 1s ease-out;
+}
+
+.flash-down {
+  animation: flash-down 1s ease-out;
+}

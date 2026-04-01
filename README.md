@@ -1,190 +1,62 @@
-# Bloomberg-dashboard
-Bloomberg-style Indian stock market portfolio dashboard built with FastAPI, React, and yfinance. Features real-time-like updates, advanced charting, portfolio analytics, and news integration.
+# NSE Terminal - Bloomberg-Style Portfolio Tracker
 
+A high-performance financial dashboard for tracking Indian stock market (NSE) portfolios.
 
-# 📊 Bloomberg-Style Indian Stock Market Dashboard
+## Features
+- **Monorepo Scaffold**: Integrated FastAPI (Backend) + Vite/React (Frontend).
+- **Portfolio Config**: Managed via `portfolio.json`.
+- **Ticker Normalization**: Automatic `.NS` suffix enforcement.
+- **Bloomberg UI**: Dark-themed, high-density terminal interface.
+- **Hybrid Caching**: In-memory caching with stale-while-revalidate logic.
+- **Polling Architecture**: Independent loops for prices (20s), charts (90s), and news (5m).
 
-A full-stack financial dashboard inspired by Bloomberg Terminal, built for tracking Indian stock portfolios with real-time-like updates, charts, fundamentals, and news.
+## Setup Instructions
 
----
+### 1. Finnhub API Key
+Sign up at [finnhub.io](https://finnhub.io), register, and get your free API key.
 
-## 🚀 Features
+### 2. Local Setup
 
-### 📈 Portfolio Dashboard
-
-* Total portfolio value
-* Daily P&L (₹ + %)
-* Overall P&L (₹ + %)
-* Allocation breakdown
-
-### 📊 Charts
-
-* Candlestick charts (TradingView Lightweight Charts)
-* Timeframes: 5m, 15m, 1D, 1W, 1M
-* Smart auto-follow (like TradingView)
-
-### 📰 News
-
-* Company-specific news (Finnhub)
-* Market news (Google RSS)
-* Today / Weekly tabs
-
-### 📉 Fundamentals
-
-* PE Ratio, Market Cap, EPS
-* ROE, Debt/Equity
-* 52W High/Low, Dividend Yield
-
-### ⚡ Performance
-
-* Polling every 15–20 seconds
-* Exponential backoff
-* Smart caching + stale fallback
-
----
-
-## 🛠️ Tech Stack
-
-### Backend
-
-* FastAPI
-* yfinance
-* Finnhub API
-* Feedparser (RSS)
-* SlowAPI (rate limiting)
-
-### Frontend
-
-* React (Vite)
-* Tailwind CSS
-* TradingView Lightweight Charts
-
-### Deployment
-
-* Backend: Railway
-* Frontend: Vercel
-
----
-
-## 📁 Project Structure
-
-```
-bloomberg-dashboard/
-├── backend/
-├── frontend/
-└── portfolio.json
-```
-
----
-
-## ⚙️ Setup (Local)
-
-### 1️⃣ Clone repo
-
-```
-git clone https://github.com/YOUR_USERNAME/bloomberg-dashboard.git
-cd bloomberg-dashboard
-```
-
----
-
-### 2️⃣ Backend setup
-
-```
+#### Backend
+```bash
 cd backend
 pip install -r requirements.txt
 cp .env.example .env
-```
-
-👉 Add your Finnhub API key in `.env`
-
-Run backend:
-
-```
+# Edit .env and add your FINNHUB_API_KEY
 uvicorn main:app --reload --port 8000
 ```
 
----
-
-### 3️⃣ Frontend setup
-
-```
+#### Frontend
+```bash
 cd frontend
 npm install
 cp .env.example .env
 npm run dev
 ```
+The app will be available at `http://localhost:3000`.
 
----
-
-## 🔑 API Keys
-
-Get free API key from:
-👉 https://finnhub.io
-
----
-
-## 🧾 Portfolio Configuration
-
-Edit:
-
-```
-backend/portfolio.json
-```
-
-Example:
-
-```
+### 3. Portfolio Configuration
+Edit `backend/portfolio.json` to manage your stocks:
+```json
 {
   "portfolio": {
-    "RELIANCE.NS": {"qty": 10, "avg_price": 2450}
+    "RELIANCE.NS": { "qty": 10, "avg_price": 2450.00 }
   },
-  "watchlist": ["TCS.NS"]
+  "watchlist": ["TCS.NS", "INFY.NS"]
 }
 ```
+All tickers are automatically normalized to include the `.NS` suffix if missing.
 
----
-
-## 🚀 Deployment
+## Deployment
 
 ### Backend (Railway)
-
-* Connect GitHub repo
-* Root directory → `backend`
-* Add env variables:
-
-  * `FINNHUB_API_KEY`
-  * `ALLOWED_ORIGIN`
-
----
+- **Root Directory**: `backend/` (Set this in Railway project settings)
+- Procfile: `web: uvicorn main:app --host 0.0.0.0 --port $PORT`
+- Set Env Vars: `FINNHUB_API_KEY`, `ALLOWED_ORIGIN` (your Vercel URL).
+- **Important**: Deploy as a single replica to maintain in-memory cache coherence.
 
 ### Frontend (Vercel)
-
-* Root directory → `frontend`
-* Add env:
-
-  * `VITE_API_BASE_URL`
-
----
-
-## ⚠️ Disclaimer
-
-This project is for educational purposes only. Not intended for actual trading decisions.
-
----
-
-## ⭐ Future Improvements
-
-* WebSocket real-time data
-* User login system
-* Advanced analytics
-* Alerts & notifications
-
----
-
-## 👨‍💻 Author
-
-Built by COCKUY
-
-
----
+- **Root Directory**: `frontend/` (Set this in Vercel project settings)
+- Build Command: `npm run build`
+- Output Directory: `dist`
+- Set Env Var: `VITE_API_BASE_URL` (your Railway backend URL).

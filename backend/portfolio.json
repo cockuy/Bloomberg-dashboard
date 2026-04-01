@@ -1,0 +1,27 @@
+{
+  "portfolio": {
+    "RELIANCE.NS": {
+      "qty": 10,
+      "avg_price": 2450.50
+    },
+    "TCS.NS": {
+      "qty": 5,
+      "avg_price": 3800.00
+    },
+    "HDFCBANK.NS": {
+      "qty": 20,
+      "avg_price": 1450.25
+    },
+    "INFY.NS": {
+      "qty": 15,
+      "avg_price": 1620.00
+    }
+  },
+  "watchlist": [
+    "ICICIBANK.NS",
+    "SBIN.NS",
+    "BHARTIARTL.NS",
+    "ITC.NS",
+    "WIPRO.NS"
+  ]
+}
